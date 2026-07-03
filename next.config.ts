@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Хакатон-режим: не ронять прод-билд из-за линта/строгих правил.
-  eslint: { ignoreDuringBuilds: true },
+  // Next.js 16 (Turbopack) не запускает ESLint при билде — отдельного послабления не нужно.
 };
 
 export default nextConfig;
