@@ -34,7 +34,7 @@ function QualityDial() {
         <span>дешевле · красивее</span>
         <span>дороже · уродливее</span>
       </div>
-      <div role="tablist" aria-label="Уровень качества" style={{ display: "grid", gridTemplateColumns: `repeat(${TIERS.length}, 1fr)`, gap: 6, marginTop: 12 }}>
+      <div className="qd-grid" role="tablist" aria-label="Уровень качества" style={{ display: "grid", gridTemplateColumns: `repeat(${TIERS.length}, 1fr)`, gap: 6, marginTop: 12 }}>
         {TIERS.map((t, i) => {
           const on = i === activeIndex;
           return (
@@ -102,9 +102,9 @@ export function Landing() {
         <nav style={{ ...shell, display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
           <span style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 600, letterSpacing: "-.02em" }}>Croogle</span>
           <div style={{ display: "flex", alignItems: "center", gap: 26, fontSize: 14.5 }}>
-            <a href="#how" style={{ color: "var(--muted)", textDecoration: "none" }}>Как это работает</a>
-            <a href="#pricing" style={{ color: "var(--muted)", textDecoration: "none" }}>Croogle Pro</a>
-            <Link href="/status" style={{ color: "var(--muted)", textDecoration: "none" }}>Статус</Link>
+            <a className="nav-link" href="#how" style={{ color: "var(--muted)", textDecoration: "none" }}>Как это работает</a>
+            <a className="nav-link" href="#pricing" style={{ color: "var(--muted)", textDecoration: "none" }}>Croogle Pro</a>
+            <Link className="nav-link" href="/status" style={{ color: "var(--muted)", textDecoration: "none" }}>Статус</Link>
             <Link href="/search" style={{ fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--accent)", textDecoration: "none", border: "1px solid var(--accent)", borderRadius: 999, padding: "7px 15px" }}>Премиум-поиск →</Link>
             <AuthButton />
           </div>
@@ -171,7 +171,7 @@ export function Landing() {
           {TIERS.map((t, i) => {
             const premium = t.id === "scribble";
             return (
-              <div key={t.id} style={{
+              <div key={t.id} className="price-row" style={{
                 display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,2fr) auto",
                 gap: 20, alignItems: "center", padding: "24px 4px", borderTop: "1px solid var(--line)",
                 ...(i === TIERS.length - 1 ? { borderBottom: "1px solid var(--line)" } : {}),
@@ -184,7 +184,7 @@ export function Landing() {
                   {t.badge && <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--accent-ink)", marginTop: 8 }}>{t.badge}</div>}
                 </div>
                 <div style={{ color: "var(--muted)", fontSize: 15.5, lineHeight: 1.5 }}>{t.tagline}</div>
-                <Link href={`/onboarding?plan=${t.id}`} style={{ justifySelf: "end", whiteSpace: "nowrap", fontFamily: "var(--font)", fontWeight: 600, fontSize: 15, textDecoration: "none", padding: "11px 20px", borderRadius: "var(--radius)", background: premium ? "var(--accent-ink)" : "transparent", color: premium ? "#fff" : "var(--accent)", border: premium ? "none" : "1px solid var(--accent)" }}>
+                <Link href={`/onboarding?plan=${t.id}`} className="price-cta" style={{ justifySelf: "end", whiteSpace: "nowrap", fontFamily: "var(--font)", fontWeight: 600, fontSize: 15, textDecoration: "none", padding: "11px 20px", borderRadius: "var(--radius)", background: premium ? "var(--accent-ink)" : "transparent", color: premium ? "#fff" : "var(--accent)", border: premium ? "none" : "1px solid var(--accent)" }}>
                   {premium ? "Стать роскошью" : "Выбрать"}
                 </Link>
               </div>
@@ -217,7 +217,7 @@ export function Landing() {
         <hr className="hairline" />
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "24px 40px", padding: "28px 0" }}>
           <span style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: ".16em", textTransform: "uppercase", color: "var(--muted)" }}>О нас пишут</span>
-          {["TechCrunch", "Forbes", "Product Hunt", "Уголёк Daily", "VC.kz"].map((p) => (
+          {["Y Combinator", "TechCrunch", "Cursor", "Forbes", "Product Hunt", "Уголёк Daily", "VC.kz"].map((p) => (
             <span key={p} style={{ fontFamily: "var(--display)", fontSize: 20, color: "var(--muted)", opacity: 0.7 }}>{p}</span>
           ))}
         </div>

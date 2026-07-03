@@ -1,4 +1,31 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
+body { overflow-x: hidden; }
 a { color: inherit; }
 button { font-family: inherit; }
+
+/* ============================================================
+   Мобильная адаптация. Инлайн-стили компонентов не умеют
+   media-queries, поэтому переопределяем через классы-хуки
+   (нужен !important — инлайн-стиль иначе выигрывает).
+   ============================================================ */
+
+/* Планшет и уже: тарифные табы в 2 колонки вместо 4 */
+@media (max-width: 560px) {
+  .qd-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Телефон */
+@media (max-width: 640px) {
+  /* Шапка: прячем текстовые ссылки, оставляем логотип + CTA */
+  .nav-link { display: none !important; }
+
+  /* Hero-поиск: поле и кнопка в столбик на всю ширину */
+  .intent-form { flex-wrap: wrap !important; }
+  .intent-form > input { flex: 1 1 100% !important; }
+  .intent-form > button { flex: 1 1 100% !important; }
+
+  /* Прайсинг: строки тарифов в один столбец, без наложений */
+  .price-row { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .price-cta { justify-self: start !important; }
+}

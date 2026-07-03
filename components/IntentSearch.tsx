@@ -84,6 +84,7 @@ export function IntentSearch({ autoFocus = false }: { autoFocus?: boolean }) {
   return (
     <div style={{ maxWidth: 640, marginTop: 30 }}>
       <form
+        className="intent-form"
         onSubmit={recover}
         style={{ display: "flex", gap: 10, alignItems: "center" }}
         aria-busy={running}
