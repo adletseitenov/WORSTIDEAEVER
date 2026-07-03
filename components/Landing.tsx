@@ -5,6 +5,7 @@ import { type CSSProperties } from "react";
 import { TIERS } from "@/lib/tiers";
 import { useTier } from "@/app/providers/ThemeProvider";
 import { IntentSearch } from "@/components/IntentSearch";
+import { AuthButton } from "@/components/AuthButton";
 
 /* ------------------------------------------------------------------ */
 /*  Tokens driven by theme CSS variables                               */
@@ -105,6 +106,7 @@ export function Landing() {
             <a href="#pricing" style={{ color: "var(--muted)", textDecoration: "none" }}>Croogle Pro</a>
             <Link href="/status" style={{ color: "var(--muted)", textDecoration: "none" }}>Статус</Link>
             <Link href="/search" style={{ fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--accent)", textDecoration: "none", border: "1px solid var(--accent)", borderRadius: 999, padding: "7px 15px" }}>Премиум-поиск →</Link>
+            <AuthButton />
           </div>
         </nav>
       </header>

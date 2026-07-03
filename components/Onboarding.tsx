@@ -2,6 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useSession, signIn } from "next-auth/react";
 import Link from "next/link";
 import { TIERS, type TierId } from "@/lib/tiers";
 import { useTier } from "@/app/providers/ThemeProvider";
@@ -16,6 +17,7 @@ export function Onboarding() {
   const router = useRouter();
   const params = useSearchParams();
   const { setTier } = useTier();
+  const { status, update } = useSession();
 
   const preset = TIERS.find((t) => t.id === params.get("plan"))?.id ?? null;
   const [selected, setSelected] = useState<TierId | null>(preset);
@@ -24,11 +26,18 @@ export function Onboarding() {
 
   const plan = TIERS.find((t) => t.id === selected) ?? null;
 
-  function confirm() {
+  async function confirm() {
     if (!plan) return;
+    // Подписка привязывается к аккаунту → сперва вход через Google,
+    // после чего Google вернёт нас на этот же шаг оплаты.
+    if (status !== "authenticated") {
+      signIn("google", { callbackUrl: `/onboarding?plan=${plan.id}` });
+      return;
+    }
     setProcessing(true);
-    setTier(plan.id);
-    window.setTimeout(() => router.push("/search"), 900);
+    await update({ tier: plan.id }); // персистим подписку в JWT аккаунта
+    setTier(plan.id);                // мгновенно перекрашиваем интерфейс
+    router.push("/search");
   }
 
   return (
@@ -140,9 +149,19 @@ export function Onboarding() {
                 disabled={processing}
                 style={{ width: "100%", marginTop: 18, fontFamily: "var(--font)", fontWeight: 600, fontSize: 16, padding: "14px 20px", borderRadius: "var(--radius)", border: "none", cursor: processing ? "wait" : "pointer", background: plan.id === "scribble" ? "var(--accent-ink)" : "var(--accent)", color: "#fff" }}
               >
-                {processing ? "Проводим платёж…" : plan.price === 0 ? "Активировать бесплатно →" : `Оплатить $${plan.price} →`}
+                {processing
+                  ? "Проводим платёж…"
+                  : status !== "authenticated"
+                  ? "Войти через Google →"
+                  : plan.price === 0
+                  ? "Активировать бесплатно →"
+                  : `Оплатить $${plan.price} →`}
               </button>
-              <p style={{ margin: "10px 0 0", fontSize: 11.5, color: "var(--muted)", textAlign: "center" }}>Далее откроется ваш поиск в оплаченном качестве.</p>
+              <p style={{ margin: "10px 0 0", fontSize: 11.5, color: "var(--muted)", textAlign: "center" }}>
+                {status !== "authenticated"
+                  ? "Подписка привязывается к вашему Google-аккаунту."
+                  : "Далее откроется ваш поиск в оплаченном качестве."}
+              </p>
             </aside>
           </div>
         </section>

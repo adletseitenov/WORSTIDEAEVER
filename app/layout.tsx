@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "./themes.css";
-import { ThemeProvider } from "@/app/providers/ThemeProvider";
+import { Providers } from "@/app/providers/Providers";
 
 export const metadata: Metadata = {
   title: "Croogle — вы забыли, что хотели загуглить",
@@ -12,7 +12,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ru">
       <body style={{ margin: 0 }}>
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
