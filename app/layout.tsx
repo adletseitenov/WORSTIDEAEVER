@@ -4,8 +4,8 @@ import "./themes.css";
 import { ThemeProvider } from "@/app/providers/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Croogle — красота для бедных, роскошь — каракули",
-  description: "Первый поисковик, где вы платите за то, как результаты выглядят. Чем дороже тариф — тем эксклюзивнее (и хуже).",
+  title: "Croogle — вы забыли, что хотели загуглить",
+  description: "AI, который восстанавливает ваше утраченное поисковое намерение и мгновенно доставляет вас в Google. Впервые потерянная мысль — под контролем.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
