@@ -24,7 +24,7 @@ export default function SearchPage() {
 
   return (
     <main style={{ minHeight: "100vh", padding: 24 }}>
-      <a href="/" style={{ display: "block", textAlign: "center", fontSize: 40, fontWeight: 800, fontFamily: "var(--font)", textDecoration: "none" }}>
+      <a href="/" style={{ display: "block", textAlign: "center", fontSize: 44, fontWeight: 600, fontFamily: "var(--display)", letterSpacing: "-.02em", textDecoration: "none" }}>
         {/* На тарифе Каракули текстовый логотип скрывается, показывается рукотворный рисунок */}
         <span className="wordmark-text">Croogle</span>
         <img className="scribble-logo" src="/scribble-logo.png" alt="Croogle — рукотворный поиск" />
