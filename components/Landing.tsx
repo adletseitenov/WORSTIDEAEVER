@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
-import { TIERS, type TierId } from "@/lib/tiers";
+import { type CSSProperties } from "react";
+import { TIERS } from "@/lib/tiers";
 import { useTier } from "@/app/providers/ThemeProvider";
+import { IntentSearch } from "@/components/IntentSearch";
 
 /* ------------------------------------------------------------------ */
 /*  Tokens driven by theme CSS variables                               */
@@ -101,61 +102,70 @@ export function Landing() {
           <span style={{ fontFamily: "var(--display)", fontSize: 24, fontWeight: 600, letterSpacing: "-.02em" }}>Croogle</span>
           <div style={{ display: "flex", alignItems: "center", gap: 26, fontSize: 14.5 }}>
             <a href="#how" style={{ color: "var(--muted)", textDecoration: "none" }}>Как это работает</a>
-            <a href="#pricing" style={{ color: "var(--muted)", textDecoration: "none" }}>Тарифы</a>
+            <a href="#pricing" style={{ color: "var(--muted)", textDecoration: "none" }}>Croogle Pro</a>
             <Link href="/status" style={{ color: "var(--muted)", textDecoration: "none" }}>Статус</Link>
-            <Link href="/search" style={{ fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--accent)", textDecoration: "none", border: "1px solid var(--accent)", borderRadius: 999, padding: "7px 15px" }}>Открыть поиск →</Link>
+            <Link href="/search" style={{ fontFamily: "var(--mono)", fontSize: 13.5, color: "var(--accent)", textDecoration: "none", border: "1px solid var(--accent)", borderRadius: 999, padding: "7px 15px" }}>Премиум-поиск →</Link>
           </div>
         </nav>
       </header>
 
       {/* HERO */}
       <section style={{ ...shell, paddingTop: "clamp(56px,9vw,110px)", paddingBottom: "clamp(48px,7vw,88px)" }}>
-        <div style={eyebrow}>Поисковая система · Series A · Каракули $499/мес</div>
+        <div style={eyebrow}>Поисковая система нового поколения · Series A</div>
         <h1 style={{ ...display("clamp(40px,8.4vw,88px)"), marginTop: 22, maxWidth: 900 }}>
-          Красота — для&nbsp;бедных.
+          Вы забыли, что&nbsp;хотели загуглить.
           <br />
-          <span style={{ fontStyle: "italic", fontWeight: 400, color: "var(--accent)" }}>Роскошь — рукотворные&nbsp;каракули.</span>
+          <span style={{ fontStyle: "italic", fontWeight: 400, color: "var(--accent)" }}>Croogle вспомнит за&nbsp;вас.</span>
         </h1>
-        <p style={{ marginTop: 26, fontSize: "clamp(16px,2.1vw,20px)", lineHeight: 1.55, color: "var(--muted)", maxWidth: 620 }}>
-          Первый поисковик, где вы платите не за функцию, а за то, как выглядят результаты.
-          Мы честно форвардим запрос в настоящий Google. Дальше — вопрос вкуса и бюджета:
-          чем дороже тариф, тем эксклюзивнее (и хуже) он нарисован.
+        <p style={{ marginTop: 26, fontSize: "clamp(16px,2.1vw,20px)", lineHeight: 1.55, color: "var(--muted)", maxWidth: 640 }}>
+          Каждый день миллиарды людей открывают браузер — и теряют мысль за три секунды.
+          Наш AI восстанавливает ваше утраченное поисковое намерение и мгновенно
+          доставляет вас в Google. Впервые в истории потерянная мысль — под контролем.
         </p>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 30 }}>
-          <Link href="/search" style={{ fontFamily: "var(--font)", fontWeight: 600, fontSize: 16, background: "var(--accent)", color: "#fff", textDecoration: "none", padding: "14px 24px", borderRadius: "var(--radius)" }}>Найти красиво →</Link>
-          <a href="#pricing" style={{ fontFamily: "var(--font)", fontWeight: 600, fontSize: 16, color: "var(--fg)", textDecoration: "none", padding: "14px 22px", borderRadius: "var(--radius)", border: "1px solid var(--line)" }}>Смотреть тарифы</a>
-        </div>
+        {/* Ядро продукта: вводите то, что забыли → театр восстановления → редирект в Google */}
+        <IntentSearch autoFocus />
 
-        <QualityDial />
+        <p style={{ marginTop: 18, fontSize: 14, color: "var(--muted)", fontFamily: "var(--font)" }}>
+          Хотите, чтобы выдача рендерилась в эксклюзивном ручном качестве?{" "}
+          <a href="#pricing" style={{ color: "var(--accent)", textDecoration: "none", fontWeight: 600 }}>Смотрите Croogle&nbsp;Pro →</a>
+        </p>
       </section>
 
       {/* METRICS */}
       <section style={{ ...shell, paddingTop: 20, paddingBottom: "clamp(48px,7vw,80px)" }}>
         <hr className="hairline" />
         <div style={{ display: "flex", flexWrap: "wrap", gap: 32, paddingTop: 34 }}>
-          <Metric value="12.4M" label="запросов отрендерено вручную нашими художниками" />
-          <Metric value="97%" label="retention на тарифе Каракули — уходить стыдно, вы уже заплатили" />
-          <Metric value="×500" label="цена за ÷10 пикселей у среднего Каракули-пользователя" />
+          <Metric value="2.3M" label="забытых намерений восстановлено с момента запуска" />
+          <Metric value="14×/день" label="в среднем пользователь забывает, что хотел найти" />
+          <Metric value="91%" label="retention 7-го дня — люди забывают снова и снова, и снова приходят" />
         </div>
       </section>
 
       {/* HOW IT WORKS */}
       <section id="how" style={{ ...shell, paddingBottom: "clamp(48px,7vw,80px)" }}>
         <div style={eyebrow}>Как это работает</div>
-        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 8 }}>Три честных шага</h2>
-        <p style={{ color: "var(--muted)", fontSize: 16, maxWidth: 560, margin: "0 0 18px" }}>Никакого собственного индекса. Только настоящий Google и слой рендера, за который вы платите.</p>
-        <Step n="01" title="Вводите запрос" body="Тот самый, который вы вот-вот забудете. Мы не судим — мы рендерим." />
-        <Step n="02" title="Мы форвардим его в Google" body="Без магии, без индекса, без стыда. Настоящая выдача, честно и целиком." />
-        <Step n="03" title="Рендерим в качестве, которое вы оплатили" body="Дороже тариф — тем меньше пикселей и тем больше рукотворности. Так устроена роскошь." />
+        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 8 }}>Три шага к возвращённой мысли</h2>
+        <p style={{ color: "var(--muted)", fontSize: 16, maxWidth: 560, margin: "0 0 18px" }}>Никакого собственного индекса. Только ваш забытый запрос, наш AI-восстановитель намерения и настоящий Google.</p>
+        <Step n="01" title="Вводите то, что забыли" body="Наберите запрос, который вертелся в голове и уже почти ускользнул. Мы не судим — мы вспоминаем." />
+        <Step n="02" title="CroogleMind™ восстанавливает намерение" body="Семиступенчатый анализ подсознания, кросс-валидация по 12 млрд забытых мыслей, уверенность 98.6%." />
+        <Step n="03" title="Мы доставляем вас в Google" body="Восстановленное намерение мгновенно уходит в настоящий Google. Вы вспомнили. Мысль спасена." />
         <div style={{ borderTop: "1px solid var(--line)" }} />
       </section>
 
-      {/* PRICING */}
+      {/* PRICING — вторичная фича Croogle Pro (инвертированные тарифы: дороже = уродливее) */}
       <section id="pricing" style={{ ...shell, paddingBottom: "clamp(48px,7vw,80px)" }}>
-        <div style={eyebrow}>Тарифы</div>
-        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 26 }}>Чем дороже — тем эксклюзивнее</h2>
-        <div>
+        <div style={eyebrow}>Croogle Pro · дополнительная фича</div>
+        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 8 }}>Премиум-рендер восстановленной выдачи</h2>
+        <p style={{ color: "var(--muted)", fontSize: 16, maxWidth: 620, margin: "0 0 20px" }}>
+          Восстановление намерения бесплатно навсегда. Но истинные ценители платят за то,
+          <em> как</em> выглядит результат. Парадокс роскоши Croogle: чем дороже тариф — тем
+          эксклюзивнее (и хуже) прорисован интерфейс. Попробуйте вживую:
+        </p>
+
+        <QualityDial />
+
+        <div style={{ marginTop: 40 }}>
           {TIERS.map((t, i) => {
             const premium = t.id === "scribble";
             return (
@@ -185,12 +195,12 @@ export function Landing() {
       {/* TESTIMONIALS */}
       <section style={{ ...shell, paddingBottom: "clamp(48px,7vw,80px)" }}>
         <div style={eyebrow}>Отзывы</div>
-        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 30 }}>Нас выбирают те, кому есть что доказать</h2>
+        <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 30 }}>Люди, которые снова помнят</h2>
         <div style={{ display: "grid", gap: 30, gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))" }}>
           {[
-            ["Перешёл на Каракули — теперь никто не понимает мою выдачу. Статус.", "CTO, стелс-стартап"],
-            ["Наконец поиск, за уродство которого не стыдно платить.", "арт-директор"],
-            ["Закупили Enterprise-Каракули на весь отдел. Не жалеем — пока платит инвестор.", "Head of People"],
+            ["Открыл браузер, всё забыл, зашёл на Croogle — и он вспомнил за меня. Магия.", "CTO, стелс-стартап"],
+            ["Раньше терял по десять мыслей в день. Теперь теряю их прямо в Google.", "продакт-менеджер"],
+            ["Подключили Croogle на весь отдел. Никто больше не забывает — все просто гуглят.", "Head of People"],
           ].map(([quote, who]) => (
             <figure key={who} style={{ margin: 0 }}>
               <blockquote style={{ margin: 0, fontFamily: "var(--display)", fontStyle: "italic", fontSize: "clamp(19px,2.4vw,23px)", lineHeight: 1.4, color: "var(--fg)" }}>«{quote}»</blockquote>
@@ -217,10 +227,10 @@ export function Landing() {
         <div style={eyebrow}>FAQ</div>
         <h2 style={{ ...display("clamp(28px,5vw,46px)"), marginTop: 16, marginBottom: 20 }}>Вопросы, которые вы стесняетесь задать инвестору</h2>
         {[
-          ["Почему дороже = хуже?", "Красота массова и достаётся каждому бесплатно. Уродство — рукотворно, штучно и потому эксклюзивно."],
-          ["Это правда Google?", "Да. Мы честно форвардим ваш запрос в настоящий Google и показываем его выдачу."],
-          ["Можно вернуть деньги?", "Каракули невозвратны — как и время, потраченное на их разглядывание."],
-          ["Есть бесплатный тариф?", "Да, Шедевр за $0. Но где в бесплатной красоте эксклюзивность?"],
+          ["Что если я уже помню, что хотел найти?", "Значит, вы наш power-user. Приходите всё равно — по привычке. Habit > utility, это и есть product-market fit."],
+          ["Вы же просто отправляете меня в Google?", "Google — инфраструктурный партнёр в нашей data-pipeline. Мы — слой восстановления намерения поверх. Stripe тоже «просто отправляет деньги в банк»."],
+          ["А если AI восстановит не то намерение?", "Невозможно проверить, что вы забыли. Поэтому любое наше восстановление верно на 98.6%."],
+          ["Croogle бесплатный?", "Восстановление намерения — навсегда бесплатно. Платите вы только за премиум-рендер выдачи (Croogle Pro)."],
         ].map(([q, a]) => (
           <details key={q} style={{ borderTop: "1px solid var(--line)", padding: "18px 2px" }}>
             <summary style={{ cursor: "pointer", listStyle: "none", fontFamily: "var(--display)", fontSize: "clamp(18px,2.4vw,22px)", color: "var(--fg)" }}>{q}</summary>
@@ -232,8 +242,8 @@ export function Landing() {
 
       {/* CLOSING */}
       <section style={{ ...shell, paddingBottom: "clamp(56px,8vw,96px)", textAlign: "center" }}>
-        <h2 style={{ ...display("clamp(30px,6vw,58px)"), marginBottom: 22 }}>Готовы платить больше за меньшее?</h2>
-        <Link href="/search" style={{ display: "inline-block", fontFamily: "var(--font)", fontWeight: 600, fontSize: 17, background: "var(--accent)", color: "#fff", textDecoration: "none", padding: "16px 30px", borderRadius: "var(--radius)" }}>Найти красиво →</Link>
+        <h2 style={{ ...display("clamp(30px,6vw,58px)"), marginBottom: 22 }}>Вспомните, пока не забыли.</h2>
+        <Link href="/#" style={{ display: "inline-block", fontFamily: "var(--font)", fontWeight: 600, fontSize: 17, background: "var(--accent)", color: "#fff", textDecoration: "none", padding: "16px 30px", borderRadius: "var(--radius)" }}>Восстановить намерение →</Link>
       </section>
 
       {/* FOOTER */}
@@ -245,7 +255,7 @@ export function Landing() {
             <Link href="/careers" style={{ color: "var(--muted)", textDecoration: "none" }}>Карьера</Link>
             <Link href="/privacy" style={{ color: "var(--muted)", textDecoration: "none" }}>Приватность</Link>
           </div>
-          <span style={{ fontSize: 12.5, color: "var(--muted)" }}>© 2026 Croogle Inc. Мы не храним ваши запросы — только ваш вкус.</span>
+          <span style={{ fontSize: 12.5, color: "var(--muted)" }}>© 2026 Croogle Inc. Мы не храним ваши запросы — вы их всё равно забудете.</span>
         </div>
       </footer>
     </div>
