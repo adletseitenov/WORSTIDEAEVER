@@ -1,12 +1,26 @@
 "use client";
-import { createContext, useContext, useState, ReactNode } from "react";
-import { TierId, DEFAULT_TIER } from "@/lib/tiers";
+import { createContext, useContext, useState, useEffect, type ReactNode } from "react";
+import { type TierId, DEFAULT_TIER } from "@/lib/tiers";
+
+const STORAGE_KEY = "croogle.tier.v1";
 
 type Ctx = { tier: TierId; setTier: (t: TierId) => void };
 const ThemeCtx = createContext<Ctx>({ tier: DEFAULT_TIER, setTier: () => {} });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [tier, setTier] = useState<TierId>(DEFAULT_TIER);
+  const [tier, setTierState] = useState<TierId>(DEFAULT_TIER);
+
+  // Восстанавливаем оплаченный тариф после онбординга / перезагрузки.
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY) as TierId | null;
+    if (saved) setTierState(saved);
+  }, []);
+
+  const setTier = (t: TierId) => {
+    setTierState(t);
+    try { localStorage.setItem(STORAGE_KEY, t); } catch { /* private mode */ }
+  };
+
   return (
     <ThemeCtx.Provider value={{ tier, setTier }}>
       <div className={`theme-${tier} theme-root`}>{children}</div>

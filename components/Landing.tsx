@@ -182,7 +182,7 @@ export function Landing() {
                   {t.badge && <div style={{ fontFamily: "var(--mono)", fontSize: 11, letterSpacing: ".12em", textTransform: "uppercase", color: "var(--accent-ink)", marginTop: 8 }}>{t.badge}</div>}
                 </div>
                 <div style={{ color: "var(--muted)", fontSize: 15.5, lineHeight: 1.5 }}>{t.tagline}</div>
-                <Link href="/search" style={{ justifySelf: "end", whiteSpace: "nowrap", fontFamily: "var(--font)", fontWeight: 600, fontSize: 15, textDecoration: "none", padding: "11px 20px", borderRadius: "var(--radius)", background: premium ? "var(--accent-ink)" : "transparent", color: premium ? "#fff" : "var(--accent)", border: premium ? "none" : "1px solid var(--accent)" }}>
+                <Link href={`/onboarding?plan=${t.id}`} style={{ justifySelf: "end", whiteSpace: "nowrap", fontFamily: "var(--font)", fontWeight: 600, fontSize: 15, textDecoration: "none", padding: "11px 20px", borderRadius: "var(--radius)", background: premium ? "var(--accent-ink)" : "transparent", color: premium ? "#fff" : "var(--accent)", border: premium ? "none" : "1px solid var(--accent)" }}>
                   {premium ? "Стать роскошью" : "Выбрать"}
                 </Link>
               </div>
