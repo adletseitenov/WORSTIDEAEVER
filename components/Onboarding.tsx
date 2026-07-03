@@ -10,7 +10,6 @@ import { useTier } from "@/app/providers/ThemeProvider";
 const shell: CSSProperties = { width: "100%", maxWidth: 860, margin: "0 auto", padding: "0 24px" };
 const eyebrow: CSSProperties = { fontFamily: "var(--mono)", fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: "var(--accent)" };
 const heading: CSSProperties = { fontFamily: "var(--display)", fontWeight: 500, letterSpacing: "-.02em", fontSize: "clamp(28px,5vw,44px)", margin: "14px 0 8px", lineHeight: 1.05 };
-const field: CSSProperties = { width: "100%", padding: "13px 14px", borderRadius: "var(--radius)", border: "1px solid var(--card-bd)", background: "var(--card-bg)", color: "var(--fg)", fontFamily: "var(--mono)", fontSize: 15 };
 const label: CSSProperties = { fontFamily: "var(--mono)", fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)", marginBottom: 6, display: "block" };
 
 export function Onboarding() {
@@ -34,10 +33,18 @@ export function Onboarding() {
       signIn("google", { callbackUrl: `/onboarding?plan=${plan.id}` });
       return;
     }
+    // Бесплатный «Шедевр» — активируем сразу, без оплаты.
+    if (plan.price === 0) {
+      setProcessing(true);
+      await update({ tier: plan.id }); // персистим подписку в JWT аккаунта
+      setTier(plan.id);                // мгновенно перекрашиваем интерфейс
+      router.push("/search");
+      return;
+    }
+    // Платные тарифы — реальная оплата через Polar (hosted checkout).
+    // После оплаты Polar вернёт на /onboarding/success, где выставится тариф.
     setProcessing(true);
-    await update({ tier: plan.id }); // персистим подписку в JWT аккаунта
-    setTier(plan.id);                // мгновенно перекрашиваем интерфейс
-    router.push("/search");
+    window.location.href = `/api/checkout?tier=${plan.id}`;
   }
 
   return (
@@ -113,20 +120,14 @@ export function Onboarding() {
                   <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55 }}>Карта не нужна — красота достаётся даром. Но вы уверены, что готовы к поиску, который не выделяет вас из толпы?</p>
                 </div>
               ) : (
-                <div style={{ display: "grid", gap: 16 }}>
-                  <div>
-                    <span style={label}>Номер карты</span>
-                    <input style={field} placeholder="4242 4242 4242 4242" inputMode="numeric" autoComplete="cc-number" />
-                  </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                    <div><span style={label}>Срок</span><input style={field} placeholder="12 / 28" autoComplete="cc-exp" /></div>
-                    <div><span style={label}>CVC</span><input style={field} placeholder="•••" autoComplete="cc-csc" /></div>
-                  </div>
-                  <div>
-                    <span style={label}>Имя на карте</span>
-                    <input style={field} placeholder="ALIYA W" autoComplete="cc-name" />
-                  </div>
-                  <p style={{ margin: "2px 0 0", fontFamily: "var(--mono)", fontSize: 12, color: "var(--muted)" }}>Оплата ненастоящая. Мы списываем только ваш вкус.</p>
+                <div style={{ border: "1px solid var(--card-bd)", borderRadius: "var(--radius)", padding: 22, background: "var(--card-bg)", display: "grid", gap: 12 }}>
+                  <div style={{ ...label, marginBottom: 0 }}>Защищённая оплата</div>
+                  <p style={{ margin: 0, fontSize: 16, lineHeight: 1.55 }}>
+                    Оплата тарифа «{plan.name}» пройдёт на защищённой странице <strong>Polar</strong> — нашего платёжного провайдера (Merchant of Record). Карта вводится там, мы её не видим.
+                  </p>
+                  <p style={{ margin: 0, fontFamily: "var(--mono)", fontSize: 12, color: "var(--muted)" }}>
+                    Нажмите «Оплатить» — откроется Polar checkout. После оплаты мы вернём вас в поиск оплаченного качества.
+                  </p>
                 </div>
               )}
             </div>
